@@ -17,7 +17,7 @@ def read_product_list():
     user_id = request.args.get('user_id')
 
     if user_id and not user_id.isnumeric():
-        return 'Parameter "user_id" is invalid.', 400
+        return jsonify({'message': 'Parameter "user_id" is invalid.'}), 400
 
     query = db.session.query(Product)
 
