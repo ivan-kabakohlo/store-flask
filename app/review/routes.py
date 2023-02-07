@@ -57,7 +57,7 @@ def create_review():
     text = request.json.get('text')
     product_id = request.json.get('product_id')
 
-    product = db.session.query(Product).filter_by(id=product_id).first()
+    product = db.session.query(Product).get(product_id)
 
     if product is None:
         return jsonify({'message': 'Product not found.'}), 404
@@ -82,7 +82,7 @@ def update_review(id):
     text = request.json.get('text')
     product_id = request.json.get('product_id')
 
-    review = db.session.query(Review).filter_by(id=id).first()
+    review = db.session.query(Review).get(id)
 
     if review is None:
         return jsonify({'message': 'Review not found.'}), 404
@@ -109,7 +109,7 @@ def update_review(id):
 def delete_review(id):
     user_id = 1  # TODO: auth
 
-    review = db.session.query(Review).filter_by(id=id).first()
+    review = db.session.query(Review).get(id)
 
     if review is None:
         return jsonify({'message': 'Review not found.'}), 404

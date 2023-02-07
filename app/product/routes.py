@@ -62,7 +62,7 @@ def create_product():
 
 @bp.route('/products/<int:id>', methods=['PUT'])
 def update_product(id):
-    product = db.session.query(Product).filter_by(id=id).first()
+    product = db.session.query(Product).get(id)
 
     if product is None:
         return jsonify({'message': 'Product not found.'}), 404
@@ -84,7 +84,7 @@ def update_product(id):
 
 @bp.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
-    product = db.session.query(Product).filter_by(id=id).first()
+    product = db.session.query(Product).get(id)
 
     if product is None:
         return jsonify({'message': 'Product not found.'}), 404
