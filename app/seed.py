@@ -28,10 +28,13 @@ def seed():
         reviews=[review_3])
 
     user_1 = User(
-        username='admin', email='testmail1@mail.com',
-        password='test123!', avatar_url=None,
+        username='admin',
+        email='testmail1@mail.com',
+        password='test123!',
+        avatar_url=None,
         bio='Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-        birthday=date(2002, 6, 22), products=[product_1],
+        birthday=date(2002, 6, 22),
+        products=[product_1],
         reviews=[review_2, review_3])
     user_2 = User(
         username='ivan',

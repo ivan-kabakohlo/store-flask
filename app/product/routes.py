@@ -33,7 +33,7 @@ def read_product_list():
 def read_product_details(id):
     product = db.session.query(Product).get(id)
 
-    if (product is None):
+    if product is None:
         return jsonify({'message': 'Product not found.'}), 404
 
     return product_serializer.dump(product)

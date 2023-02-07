@@ -44,7 +44,7 @@ def read_reviews():
 def read_review(id):
     review = db.session.query(Review).get(id)
 
-    if (review is None):
+    if review is None:
         return jsonify({'message': 'Review not found.'}), 404
 
     return review_serializer.dump(review)

@@ -23,16 +23,16 @@ def create_app(config_class=Config):
     @app.cli.command('db_create')
     def db_create():
         db.create_all()
-        print('Database has been created!')
+        print('Database has been created.')
 
     @app.cli.command('db_seed')
     def db_seed():
         seed()
         print('Database has been seeded.')
 
-    @app.cli.command("db_drop")
+    @app.cli.command('db_drop')
     def db_drop_all():
         db.drop_all()
-        print("Database has been dropped!")
+        print('Database has been dropped.')
 
     return app
