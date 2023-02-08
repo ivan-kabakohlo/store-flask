@@ -12,9 +12,9 @@ def create_app(config_class=Config):
     db.init_app(app)
     ma.init_app(app)
 
-    from app.product import bp as product_bp
-    from app.review import bp as review_bp
-    from app.user import bp as user_bp
+    from app.blueprints.product import bp as product_bp
+    from app.blueprints.review import bp as review_bp
+    from app.blueprints.user import bp as user_bp
 
     app.register_blueprint(product_bp)
     app.register_blueprint(review_bp)
