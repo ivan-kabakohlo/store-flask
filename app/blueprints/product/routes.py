@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from marshmallow import ValidationError
 
-from app.product import bp
+from app.blueprints.product import bp
 from app.repositories.product import product_repository
 
 

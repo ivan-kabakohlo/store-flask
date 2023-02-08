@@ -1,8 +1,8 @@
 from flask import jsonify, request
 from marshmallow import ValidationError
 
+from app.blueprints.product import bp
 from app.repositories.review import review_repository
-from app.review import bp
 
 
 @bp.route('/reviews', methods=['GET'])

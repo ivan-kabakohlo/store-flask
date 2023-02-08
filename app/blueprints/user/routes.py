@@ -1,5 +1,5 @@
+from app.blueprints.user import bp
 from app.repositories.user import user_repository
-from app.user import bp
 
 
 @bp.route('/users', methods=['GET'])
