@@ -17,12 +17,16 @@ class ProductSchema(ma.Schema):
 
     class Meta:
         model = Product
-
         fields = ('id', 'name', 'description', 'image_url', 'price',
                   'created_at', 'updated_at', 'user_id', 'user')
 
     user = ma.Nested(UserSchema)
 
 
+class ProductsSchema(ProductSchema):
+    class Meta(ProductSchema.Meta):
+        exclude = ['user']
+
+
 product_schema = ProductSchema()
-products_schema = ProductSchema(many=True)
+products_schema = ProductsSchema(many=True)
