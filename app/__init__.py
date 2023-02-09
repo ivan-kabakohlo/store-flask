@@ -15,10 +15,12 @@ def create_app(config_class=Config):
     from app.blueprints.product import bp as product_bp
     from app.blueprints.review import bp as review_bp
     from app.blueprints.user import bp as user_bp
+    from app.blueprints.auth import bp as auth_bp
 
     app.register_blueprint(product_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(auth_bp, url_prefix="/auth")
 
     @app.cli.command('db_create')
     def db_create():
