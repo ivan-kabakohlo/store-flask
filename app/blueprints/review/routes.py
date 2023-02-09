@@ -17,7 +17,7 @@ def read_reviews():
 
 
 @bp.route('/reviews/<int:id>', methods=['GET'])
-def read_review(id):
+def read_review(id: int):
     return review_repository.read_by_id(id)
 
 
@@ -30,7 +30,7 @@ def create_review():
 
 
 @bp.route('/reviews/<int:id>', methods=['PUT'])
-def update_review(id):
+def update_review(id: int):
     try:
         return review_repository.update_by_id(id, request.json)
     except ValidationError as e:
@@ -38,6 +38,6 @@ def update_review(id):
 
 
 @bp.route('/reviews/<int:id>', methods=['DELETE'])
-def delete_review(id):
+def delete_review(id: int):
     review_repository.delete_by_id(id)
     return jsonify({'message': 'Deleted'})

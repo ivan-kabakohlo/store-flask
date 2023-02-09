@@ -11,7 +11,7 @@ def read_product_list():
 
 
 @bp.route('/products/<int:id>', methods=['GET'])
-def read_product(id):
+def read_product(id: int):
     return product_repository.read_by_id(id)
 
 
@@ -24,7 +24,7 @@ def create_product():
 
 
 @bp.route('/products/<int:id>', methods=['PUT'])
-def update_product(id):
+def update_product(id: int):
     try:
         return product_repository.update_by_id(id, request.json)
     except ValidationError as e:
@@ -32,6 +32,6 @@ def update_product(id):
 
 
 @bp.route('/products/<int:id>', methods=['DELETE'])
-def delete_product(id):
+def delete_product(id: int):
     product_repository.delete_by_id(id)
     return jsonify({'message': 'Deleted'})

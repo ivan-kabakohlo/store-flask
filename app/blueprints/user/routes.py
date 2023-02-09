@@ -8,5 +8,5 @@ def read_user_list():
 
 
 @bp.route('/users/<int:id>', methods=['GET'])
-def read_user(id):
+def read_user(id: int):
     return user_repository.read_by_id(id)

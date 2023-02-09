@@ -1,8 +1,11 @@
+from flask_marshmallow.schema import Schema
+from flask_sqlalchemy.model import Model
+
 from app.extensions import db
 
 
 class BaseRepository:
-    def __init__(self, Model, schema, schema_many):
+    def __init__(self, Model: Model, schema: Schema, schema_many: Schema):
         self.Model = Model
         self.schema = schema
         self.schema_many = schema_many
@@ -11,11 +14,11 @@ class BaseRepository:
         entities = db.session.query(self.Model).all()
         return self.schema_many.dump(entities)
 
-    def read_by_id(self, id):
+    def read_by_id(self, id: int):
         entity = db.session.query(self.Model).get_or_404(id)
         return self.schema.dump(entity)
 
-    def create(self, body):
+    def create(self, body: dict = {}):
         deserialized = self.schema.load(body)
         new_entity = self.Model(**deserialized)
 
@@ -24,7 +27,7 @@ class BaseRepository:
 
         return self.schema.dump(new_entity)
 
-    def update_by_id(self, id, body):
+    def update_by_id(self, id: int, body: dict = {}):
         entity = db.session.query(self.Model).get_or_404(id)
 
         self.schema.load(body)
@@ -36,7 +39,7 @@ class BaseRepository:
 
         return self.schema.dump(entity)
 
-    def delete_by_id(self, id):
+    def delete_by_id(self, id: int):
         entity = db.session.query(self.Model).get_or_404(id)
 
         db.session.delete(entity)
