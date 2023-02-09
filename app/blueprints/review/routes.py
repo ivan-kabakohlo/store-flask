@@ -8,12 +8,12 @@ from app.repositories.review import review_repository
 @bp.route('/reviews', methods=['GET'])
 def read_reviews():
     product_id = request.args.get('product_id', '')
-    user_id = request.args.get('user_id', '')
+    author_id = request.args.get('author_id', '')
 
     product_id = int(product_id) if product_id.isdigit() else None
-    user_id = int(user_id) if user_id.isdigit() else None
+    author_id = int(author_id) if author_id.isdigit() else None
 
-    return review_repository.read_all(product_id, user_id)
+    return review_repository.read_all(product_id, author_id)
 
 
 @bp.route('/reviews/<int:id>', methods=['GET'])

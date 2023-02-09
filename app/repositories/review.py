@@ -13,16 +13,16 @@ class ReviewRepository(BaseRepository):
         self.Review = Review
         self.reviews_schema = reviews_schema
 
-    def read_all(self, product_id: int, user_id: int):
-        if not product_id and not user_id:
+    def read_all(self, product_id: int, author_id: int):
+        if not product_id and not author_id:
             return super().read_all()
 
         query = db.session.query(self.Model)
 
         if product_id:
             query = query.filter(self.Review.product_id == product_id)
-        if user_id:
-            query = query.filter(self.Review.user_id == user_id)
+        if author_id:
+            query = query.filter(self.Review.author_id == author_id)
 
         reviews = query.all()
 

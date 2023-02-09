@@ -13,11 +13,11 @@ class Product(db.Model):
     description = Column(String(2000))
     image_url = Column(String(2048))
     price = Column(Float, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    seller_id = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    user = relationship('User', back_populates='products')
+    seller = relationship('User', back_populates='products')
     reviews = relationship('Review', back_populates='product',
                            cascade='all, delete-orphan')
 

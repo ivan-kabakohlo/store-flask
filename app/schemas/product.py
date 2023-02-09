@@ -13,19 +13,19 @@ class ProductSchema(ma.Schema):
     image_url = fields.Url(required=False)
     price = fields.Float(required=True,
                          validate=validate.Range(0, 1_000_000_000))
-    user_id = fields.Integer(required=True)
+    seller_id = fields.Integer(required=True)
 
     class Meta:
         model = Product
         fields = ('id', 'name', 'description', 'image_url', 'price',
-                  'created_at', 'updated_at', 'user_id', 'user')
+                  'created_at', 'updated_at', 'seller_id', 'seller')
 
-    user = ma.Nested(UserSchema)
+    seller = ma.Nested(UserSchema)
 
 
 class ProductsSchema(ProductSchema):
     class Meta(ProductSchema.Meta):
-        exclude = ['user']
+        exclude = ['seller']
 
 
 product_schema = ProductSchema()

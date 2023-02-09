@@ -18,9 +18,9 @@ class User(db.Model):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    products = relationship('Product', back_populates='user',
+    products = relationship('Product', back_populates='seller',
                             cascade='all, delete-orphan')
-    reviews = relationship('Review', back_populates='user',
+    reviews = relationship('Review', back_populates='author',
                            cascade='all, delete-orphan')
 
     def __repr__(self):
