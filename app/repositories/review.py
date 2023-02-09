@@ -1,6 +1,3 @@
-from flask_sqlalchemy.model import Model
-from marshmallow.schema import Schema
-
 from app.extensions import db
 from app.models.review import Review
 from app.repositories.base import BaseRepository
@@ -8,8 +5,8 @@ from app.schemas.review import ReviewSchema
 
 
 class ReviewRepository(BaseRepository):
-    def __init__(self, Review: Model, ReviewSchema: Schema):
-        super().__init__(Review, ReviewSchema)
+    def __init__(self):
+        super().__init__(Model=Review, Schema=ReviewSchema)
         self.Review = Review
         self.schema_many = ReviewSchema(many=True)
 
@@ -27,6 +24,3 @@ class ReviewRepository(BaseRepository):
         reviews = query.all()
 
         return self.schema_many.dump(reviews)
-
-
-review_repository = ReviewRepository(Review, ReviewSchema)

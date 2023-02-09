@@ -1,5 +1,3 @@
-from flask_sqlalchemy.model import Model
-from marshmallow.schema import Schema
 from sqlalchemy import and_, exists, or_
 
 from app.extensions import db
@@ -9,8 +7,8 @@ from app.schemas.user import UserSchema
 
 
 class UserRepository(BaseRepository):
-    def __init__(self, User: Model, UserSchema: Schema):
-        super().__init__(User, UserSchema)
+    def __init__(self):
+        super().__init__(Model=User, Schema=UserSchema)
         self.User = User
 
     def exists(self, username: str, email: str):
@@ -22,6 +20,3 @@ class UserRepository(BaseRepository):
         condition = and_(self.User.username == username,
                          self.User.password == password)
         return db.session.query(User).filter(condition).first()
-
-
-user_repository = UserRepository(User, UserSchema)

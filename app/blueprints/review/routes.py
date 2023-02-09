@@ -2,31 +2,27 @@ from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 from marshmallow import ValidationError
 
-from app.blueprints.product import bp
-from app.repositories.review import review_repository
+from app.blueprints.review import bp
+from app.blueprints.review.controller import ReviewController
+
+review_controller = ReviewController()
 
 
 @bp.route('/reviews', methods=['GET'])
 def read_reviews():
-    product_id = request.args.get('product_id', '')
-    author_id = request.args.get('author_id', '')
-
-    product_id = int(product_id) if product_id.isdigit() else None
-    author_id = int(author_id) if author_id.isdigit() else None
-
-    return review_repository.read_all(product_id, author_id)
+    return review_controller.read_reviews(request.args)
 
 
 @bp.route('/reviews/<int:id>', methods=['GET'])
 def read_review(id: int):
-    return review_repository.read_by_id(id)
+    return review_controller.read_review(id)
 
 
 @bp.route('/reviews', methods=['POST'])
 @jwt_required()
 def create_review():
     try:
-        return review_repository.create(request.json)
+        return review_controller.create_review(request.json)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
 
@@ -35,7 +31,7 @@ def create_review():
 @jwt_required()
 def update_review(id: int):
     try:
-        return review_repository.update_by_id(id, request.json)
+        return review_controller.update_review(id, request.json)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
 
@@ -43,5 +39,5 @@ def update_review(id: int):
 @bp.route('/reviews/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_review(id: int):
-    review_repository.delete_by_id(id)
-    return jsonify({'message': 'Deleted'})
+    result = review_controller.delete_review(id)
+    return jsonify(result)

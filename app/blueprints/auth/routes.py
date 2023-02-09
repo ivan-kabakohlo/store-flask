@@ -2,8 +2,11 @@ from flask import jsonify, request
 from marshmallow import ValidationError
 
 from app.blueprints.auth import bp
-from app.blueprints.auth.controller import (InvalidCredentialsError,
-                                            UserExistsError, auth_controller)
+from app.blueprints.auth.controller import (AuthController,
+                                            InvalidCredentialsError,
+                                            UserExistsError)
+
+auth_controller = AuthController()
 
 
 @bp.route('/signup', methods=['POST'])
