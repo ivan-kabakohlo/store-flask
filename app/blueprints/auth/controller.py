@@ -1,3 +1,5 @@
+from flask_jwt_extended import create_access_token
+
 from app.repositories.user import user_repository
 from app.schemas.auth import LoginSchema, SignupSchema
 from app.schemas.user import UserSchema
@@ -37,6 +39,10 @@ class AuthController:
             raise InvalidCredentialsError({'message': 'Invalid credentials.'})
 
         user = self.user_schema.dump(user)
+
+        access_token = create_access_token(identity=user)
+
+        return {'access_token': access_token}
 
 
 auth_controller = AuthController()

@@ -1,6 +1,6 @@
 from flask import Flask
 
-from app.extensions import db, ma
+from app.extensions import db, ma, jwt
 from app.seed import seed
 from config import Config
 
@@ -11,6 +11,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     ma.init_app(app)
+    jwt.init_app(app)
 
     from app.blueprints.product import bp as product_bp
     from app.blueprints.review import bp as review_bp

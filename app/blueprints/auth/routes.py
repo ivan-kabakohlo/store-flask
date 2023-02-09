@@ -19,8 +19,8 @@ def signup():
 @bp.route('/login', methods=['POST'])
 def login():
     try:
-        auth_controller.login(request.json)
-        return {}
+        token = auth_controller.login(request.json)
+        return jsonify(token)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
     except InvalidCredentialsError as e:

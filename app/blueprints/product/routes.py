@@ -1,4 +1,5 @@
 from flask import jsonify, request
+from flask_jwt_extended import jwt_required
 from marshmallow import ValidationError
 
 from app.blueprints.product import bp
@@ -16,6 +17,7 @@ def read_product(id: int):
 
 
 @bp.route('/products', methods=['POST'])
+@jwt_required()
 def create_product():
     try:
         return product_repository.create(request.json)
@@ -24,6 +26,7 @@ def create_product():
 
 
 @bp.route('/products/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_product(id: int):
     try:
         return product_repository.update_by_id(id, request.json)
@@ -32,6 +35,7 @@ def update_product(id: int):
 
 
 @bp.route('/products/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_product(id: int):
     product_repository.delete_by_id(id)
     return jsonify({'message': 'Deleted'})
