@@ -5,10 +5,10 @@ from app.extensions import db
 
 
 class BaseRepository:
-    def __init__(self, Model: Model, schema: Schema, schema_many: Schema):
+    def __init__(self, Model: Model, Schema: Schema):
         self.Model = Model
-        self.schema = schema
-        self.schema_many = schema_many
+        self.schema = Schema()
+        self.schema_many = Schema(many=True)
 
     def read_all(self):
         entities = db.session.query(self.Model).all()

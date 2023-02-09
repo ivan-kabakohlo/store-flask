@@ -14,6 +14,8 @@ class UserSchema(ma.Schema):
     bio = fields.String(required=False, validate=validate.Length(max=2000))
     birthday = fields.Date(required=False)
 
-
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password', 'avatar_url',
+                  'bio', 'birthday', 'created_at', 'updated_at')
+        load_only = ['password']

@@ -4,14 +4,14 @@ from marshmallow.schema import Schema
 from app.extensions import db
 from app.models.review import Review
 from app.repositories.base import BaseRepository
-from app.schemas.review import review_schema, reviews_schema
+from app.schemas.review import ReviewSchema
 
 
 class ReviewRepository(BaseRepository):
-    def __init__(self, Review: Model, review_schema: Schema, reviews_schema: Schema):
-        super().__init__(Model=Review, schema=review_schema, schema_many=reviews_schema)
+    def __init__(self, Review: Model, ReviewSchema: Schema):
+        super().__init__(Review, ReviewSchema)
         self.Review = Review
-        self.reviews_schema = reviews_schema
+        self.schema_many = ReviewSchema(many=True)
 
     def read_all(self, product_id: int, author_id: int):
         if not product_id and not author_id:
@@ -26,7 +26,7 @@ class ReviewRepository(BaseRepository):
 
         reviews = query.all()
 
-        return self.reviews_schema.dump(reviews)
+        return self.schema_many.dump(reviews)
 
 
-review_repository = ReviewRepository(Review, review_schema, reviews_schema)
+review_repository = ReviewRepository(Review, ReviewSchema)

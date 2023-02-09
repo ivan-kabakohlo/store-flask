@@ -2,7 +2,6 @@ from marshmallow import fields, validate
 
 from app.extensions import ma
 from app.models.product import Product
-from app.schemas.user import UserSchema
 
 
 class ProductSchema(ma.Schema):
@@ -17,16 +16,5 @@ class ProductSchema(ma.Schema):
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'image_url', 'price',
-                  'created_at', 'updated_at', 'seller_id', 'seller')
-
-    seller = ma.Nested(UserSchema)
-
-
-class ProductsSchema(ProductSchema):
-    class Meta(ProductSchema.Meta):
-        exclude = ['seller']
-
-
-product_schema = ProductSchema()
-products_schema = ProductsSchema(many=True)
+        fields = ('id', 'name', 'description', 'image_url',
+                  'price', 'seller_id', 'created_at', 'updated_at')

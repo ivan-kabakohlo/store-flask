@@ -5,13 +5,12 @@ from sqlalchemy import exists
 from app.extensions import db
 from app.models.user import User
 from app.repositories.base import BaseRepository
-from app.schemas.user import user_schema, users_schema
+from app.schemas.user import UserSchema
 
 
 class UserRepository(BaseRepository):
-    def __init__(self, User: Model, user_schema: Schema, users_schema: Schema):
-        super().__init__(Model=User, schema=user_schema,
-                         schema_many=users_schema)
+    def __init__(self, User: Model, UserSchema: Schema):
+        super().__init__(User, UserSchema)
         self.User = User
 
     def exists(self, username: str, email: str):
@@ -27,4 +26,4 @@ class UserRepository(BaseRepository):
             exists().where(self.User.username == username)).scalar()
 
 
-user_repository = UserRepository(User, user_schema, users_schema)
+user_repository = UserRepository(User, UserSchema)

@@ -2,7 +2,6 @@ from marshmallow import fields, validate
 
 from app.extensions import ma
 from app.models.review import Review
-from app.schemas.user import UserSchema
 
 
 class ReviewSchema(ma.Schema):
@@ -13,11 +12,5 @@ class ReviewSchema(ma.Schema):
 
     class Meta:
         model = Review
-        fields = ('id', 'text', 'product_id', 'author_id',
-                  'created_at', 'updated_at', 'author')
-
-    author = ma.Nested(UserSchema)
-
-
-review_schema = ReviewSchema()
-reviews_schema = ReviewSchema(many=True)
+        fields = ('id', 'text', 'author_id', 'product_id',
+                  'created_at', 'updated_at')
