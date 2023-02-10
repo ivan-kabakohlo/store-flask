@@ -1,4 +1,6 @@
+from flask import jsonify
 from flask_jwt_extended import jwt_required
+from sqlalchemy.exc import NoResultFound
 
 from app.blueprints.user import bp
 from app.blueprints.user.controller import UserController
@@ -15,4 +17,7 @@ def read_users():
 @bp.route('/users/<int:id>', methods=['GET'])
 @jwt_required()
 def read_user(id: int):
-    return user_controller.read_user(id)
+    try:
+        return user_controller.read_user(id)
+    except NoResultFound as e:
+        return jsonify(e.args[0]), 404

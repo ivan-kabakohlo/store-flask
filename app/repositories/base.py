@@ -1,5 +1,6 @@
 from flask_marshmallow.schema import Schema
 from flask_sqlalchemy.model import Model
+from sqlalchemy.exc import NoResultFound
 
 from app.extensions import db
 
@@ -15,7 +16,11 @@ class BaseRepository:
         return self.schema_many.dump(entities)
 
     def read_by_id(self, id: int):
-        entity = db.session.query(self.Model).get_or_404(id)
+        entity = db.session.query(self.Model).get(id)
+
+        if entity is None:
+            raise NoResultFound({'message': 'Not found.'})
+
         return self.schema.dump(entity)
 
     def create(self, body: dict = {}):
@@ -28,7 +33,10 @@ class BaseRepository:
         return self.schema.dump(new_entity)
 
     def update_by_id(self, id: int, body: dict = {}):
-        entity = db.session.query(self.Model).get_or_404(id)
+        entity = db.session.query(self.Model).get(id)
+
+        if entity is None:
+            raise NoResultFound({'message': 'Not found.'})
 
         self.schema.load(body)
 
@@ -41,6 +49,9 @@ class BaseRepository:
 
     def delete_by_id(self, id: int):
         entity = db.session.query(self.Model).get_or_404(id)
+
+        if entity is None:
+            raise NoResultFound({'message': 'Not found.'})
 
         db.session.delete(entity)
         db.session.commit()
