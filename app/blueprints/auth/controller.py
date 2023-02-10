@@ -40,6 +40,6 @@ class AuthController:
 
         user = self.user_schema.dump(user)
 
-        access_token = create_access_token(identity=user['id'])
+        access_token = create_access_token(identity=user)
 
         return {'access_token': access_token}

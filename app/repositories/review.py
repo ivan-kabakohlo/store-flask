@@ -8,7 +8,7 @@ class ReviewRepository(BaseRepository):
     def __init__(self):
         super().__init__(Model=Review, Schema=ReviewSchema)
         self.Review = Review
-        self.schema_many = ReviewSchema(many=True)
+        self.schema = ReviewSchema()
 
     def read_all(self, product_id: int, author_id: int):
         if not product_id and not author_id:
@@ -23,4 +23,4 @@ class ReviewRepository(BaseRepository):
 
         reviews = query.all()
 
-        return self.schema_many.dump(reviews)
+        return self.schema_many.dump(reviews, many=True)

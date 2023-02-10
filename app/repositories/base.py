@@ -9,11 +9,10 @@ class BaseRepository:
     def __init__(self, Model: Model, Schema: Schema):
         self.Model = Model
         self.schema = Schema()
-        self.schema_many = Schema(many=True)
 
     def read_all(self):
         entities = db.session.query(self.Model).all()
-        return self.schema_many.dump(entities)
+        return self.schema.dump(entities, many=True)
 
     def read_by_id(self, id: int):
         entity = db.session.query(self.Model).get(id)
@@ -48,7 +47,7 @@ class BaseRepository:
         return self.schema.dump(entity)
 
     def delete_by_id(self, id: int):
-        entity = db.session.query(self.Model).get_or_404(id)
+        entity = db.session.query(self.Model).get(id)
 
         if entity is None:
             raise NoResultFound({'message': 'Not found.'})
