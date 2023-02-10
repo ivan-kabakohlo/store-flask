@@ -1,3 +1,6 @@
+from sqlalchemy.exc import NoResultFound
+from sqlalchemy.sql import and_
+
 from app.extensions import db
 from app.models.review import Review
 from app.repositories.base import BaseRepository
@@ -8,7 +11,9 @@ class ReviewRepository(BaseRepository):
     def __init__(self):
         super().__init__(Model=Review, Schema=ReviewSchema)
         self.Review = Review
-        self.schema = ReviewSchema()
+        self.review_schema = ReviewSchema()
+        self.review_schema_update = ReviewSchema(
+            exclude=['author_id', 'product_id'])
 
     def read_all(self, product_id: int, author_id: int):
         if not product_id and not author_id:
@@ -23,4 +28,35 @@ class ReviewRepository(BaseRepository):
 
         reviews = query.all()
 
-        return self.schema_many.dump(reviews, many=True)
+        return self.review_schema.dump(reviews, many=True)
+
+    def create(self, user_id: int, body: dict = {}):
+        return super().create(body={**body, 'author_id': user_id})
+
+    def update_by_id(self, id: int, user_id: int, body: dict = {}):
+        condition = and_(self.Review.id == id,
+                         self.Review.author_id == user_id)
+        review = db.session.query(self.Review).filter(condition).first()
+
+        if review is None:
+            raise NoResultFound({'message': 'Can not access this review.'})
+
+        self.review_schema_update.load(body)
+
+        for key, value in body.items():
+            setattr(review, key, value)
+
+        db.session.commit()
+
+        return self.review_schema.dump(review)
+
+    def delete_by_id(self, id: int, user_id: int):
+        condition = and_(self.Review.id == id,
+                         self.Review.author_id == user_id)
+        review = db.session.query(self.Review).filter(condition).first()
+
+        if review is None:
+            raise NoResultFound({'message': 'Can not access this review.'})
+
+        db.session.delete(review)
+        db.session.commit()

@@ -16,12 +16,12 @@ class ReviewController:
     def read_review(self, id: int):
         return self.review_repository.read_by_id(id)
 
-    def create_review(self, body):
-        return self.review_repository.create(body)
+    def create_review(self, user_id: int, body):
+        return self.review_repository.create(user_id, body)
 
-    def update_review(self, id: int, body):
-        return self.review_repository.update_by_id(id, body)
+    def update_review(self, id: int, user_id: int, body):
+        return self.review_repository.update_by_id(id, user_id, body)
 
-    def delete_review(self, id: int):
-        self.review_repository.delete_by_id(id)
+    def delete_review(self, id: int, user_id: int):
+        self.review_repository.delete_by_id(id, user_id)
         return {'message': 'Deleted'}
