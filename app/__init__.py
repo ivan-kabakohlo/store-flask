@@ -1,7 +1,7 @@
 from flask import Flask
 
-from app.extensions import db, ma, jwt
-from app.seed import seed
+from app.extensions import db, jwt, ma
+from app.seeds.seed import seed
 from config import Config
 
 
@@ -13,15 +13,15 @@ def create_app(config_class=Config):
     ma.init_app(app)
     jwt.init_app(app)
 
+    from app.blueprints.auth import bp as auth_bp
     from app.blueprints.product import bp as product_bp
     from app.blueprints.review import bp as review_bp
     from app.blueprints.user import bp as user_bp
-    from app.blueprints.auth import bp as auth_bp
 
     app.register_blueprint(product_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(user_bp)
-    app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     @app.cli.command('db_create')
     def db_create():

@@ -9,6 +9,7 @@ from app.schemas.user import UserSchema
 class UserRepository(BaseRepository):
     def __init__(self):
         super().__init__(Model=User, Schema=UserSchema)
+
         self.User = User
 
     def exists(self, username: str, email: str):

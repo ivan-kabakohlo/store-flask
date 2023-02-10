@@ -12,7 +12,7 @@ auth_controller = AuthController()
 @bp.route('/signup', methods=['POST'])
 def signup():
     try:
-        return auth_controller.signup(request.json)
+        return auth_controller.signup(body=request.json)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
     except UserExistsError as e:
@@ -22,7 +22,7 @@ def signup():
 @bp.route('/login', methods=['POST'])
 def login():
     try:
-        token = auth_controller.login(request.json)
+        token = auth_controller.login(body=request.json)
         return jsonify(token)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
