@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from marshmallow import ValidationError
 from sqlalchemy.exc import NoResultFound
 
@@ -25,8 +25,10 @@ def read_product(id: int):
 @bp.route('/products', methods=['POST'])
 @jwt_required()
 def create_product():
+    user = get_jwt_identity()
+
     try:
-        return product_controller.create_product(request.json)
+        return product_controller.create_product(user['id'], request.json)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
 
@@ -34,8 +36,10 @@ def create_product():
 @bp.route('/products/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_product(id: int):
+    user = get_jwt_identity()
+
     try:
-        return product_controller.update_product(id, request.json)
+        return product_controller.update_product(id, user['id'], request.json)
     except NoResultFound as e:
         return jsonify(e.args[0]), 404
     except ValidationError as e:
@@ -45,8 +49,10 @@ def update_product(id: int):
 @bp.route('/products/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_product(id: int):
+    user = get_jwt_identity()
+
     try:
-        result = product_controller.delete_product(id)
+        result = product_controller.delete_product(id, user['id'])
         return jsonify(result)
     except NoResultFound as e:
         return jsonify(e.args[0]), 404

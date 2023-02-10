@@ -10,12 +10,12 @@ class ProductController:
     def read_product(self, id: int):
         return self.product_repository.read_by_id(id)
 
-    def create_product(self, body):
-        return self.product_repository.create(body)
+    def create_product(self, user_id: int, body):
+        return self.product_repository.create(user_id, body)
 
-    def update_product(self, id: int, body):
-        return self.product_repository.update_by_id(id, body)
+    def update_product(self, id: int, user_id: int, body):
+        return self.product_repository.update_by_id(id, user_id, body)
 
-    def delete_product(self, id: int):
-        self.product_repository.delete_by_id(id)
+    def delete_product(self, id: int, user_id: int):
+        self.product_repository.delete_by_id(id, user_id)
         return {'message': 'Deleted'}
