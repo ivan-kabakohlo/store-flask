@@ -4,7 +4,7 @@ from app.repositories.review import ReviewRepository
 class ReviewController:
     review_repository = ReviewRepository()
 
-    def read_reviews(self, filters: dict):
+    def read_reviews(self, filters: dict = {}):
         product_id = filters.get('product_id', '')
         author_id = filters.get('author_id', '')
 
