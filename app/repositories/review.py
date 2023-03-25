@@ -31,10 +31,10 @@ class ReviewRepository(BaseRepository):
 
         return self.review_schema.dump(reviews, many=True)
 
-    def create(self, author_id: int, body: dict = {}):
+    def create(self, author_id: int, body: dict):
         return super().create(body={**body, 'author_id': author_id})
 
-    def update_by_id(self, id: int, author_id: int, body: dict = {}):
+    def update_by_id(self, id: int, author_id: int, body: dict):
         condition = and_(self.Review.id == id,
                          self.Review.author_id == author_id)
         review = db.session.query(self.Review).filter(condition).first()

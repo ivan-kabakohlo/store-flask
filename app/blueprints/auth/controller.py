@@ -19,7 +19,7 @@ class AuthController:
     login_schema = LoginSchema()
     signup_schema = SignupSchema()
 
-    def signup(self, body: dict = {}):
+    def signup(self, body: dict):
         self.signup_schema.load(body)
 
         username = body['username']
@@ -30,7 +30,7 @@ class AuthController:
 
         return self.user_repository.create(body)
 
-    def login(self, body: dict = {}):
+    def login(self, body: dict):
         self.login_schema.load(body)
 
         user = self.user_repository.read_by_credentials(**body)

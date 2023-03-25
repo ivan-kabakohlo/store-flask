@@ -22,7 +22,7 @@ class BaseRepository:
 
         return self.schema.dump(entity)
 
-    def create(self, body: dict = {}):
+    def create(self, body: dict):
         deserialized = self.schema.load(body)
         new_entity = self.Model(**deserialized)
 
@@ -31,7 +31,7 @@ class BaseRepository:
 
         return self.schema.dump(new_entity)
 
-    def update_by_id(self, id: int, body: dict = {}):
+    def update_by_id(self, id: int, body: dict):
         entity = db.session.query(self.Model).get(id)
 
         if entity is None:

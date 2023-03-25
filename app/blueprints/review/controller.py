@@ -17,10 +17,10 @@ class ReviewController:
     def read_review(self, id: int):
         return self.review_repository.read_by_id(id=id)
 
-    def create_review(self, user_id: int, body: dict = {}):
+    def create_review(self, user_id: int, body: dict):
         return self.review_repository.create(author_id=user_id, body=body)
 
-    def update_review(self, id: int, user_id: int, body: dict = {}):
+    def update_review(self, id: int, user_id: int, body: dict):
         return self.review_repository.update_by_id(
             id=id, author_id=user_id, body=body)
 

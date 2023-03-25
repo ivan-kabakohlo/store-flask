@@ -17,10 +17,10 @@ class ProductRepository(BaseRepository):
             exclude=['seller_id'],
             partial=('name', 'description', 'image_url', 'price'))
 
-    def create(self, seller_id, body: dict = {}):
+    def create(self, seller_id, body: dict):
         return super().create(body={**body, 'seller_id': seller_id})
 
-    def update_by_id(self, id: int, seller_id: int, body: dict = {}):
+    def update_by_id(self, id: int, seller_id: int, body: dict):
         condition = and_(self.Product.id == id,
                          self.Product.seller_id == seller_id)
         product = db.session.query(self.Product).filter(condition).first()
