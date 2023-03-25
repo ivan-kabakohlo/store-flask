@@ -18,8 +18,8 @@ def read_product_list():
 def read_product(id: int):
     try:
         return product_controller.read_product(id=id)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'Product not found'}), 404
 
 
 @bp.route('/products', methods=['POST'])
@@ -42,8 +42,8 @@ def update_product(id: int):
     try:
         return product_controller.update_product(
             id=id, user_id=user['id'], body=request.json)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'Product not found'}), 404
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
 
@@ -56,5 +56,5 @@ def delete_product(id: int):
     try:
         result = product_controller.delete_product(id=id, user_id=user['id'])
         return jsonify(result)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'Product not found'}), 404

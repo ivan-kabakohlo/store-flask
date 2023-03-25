@@ -18,8 +18,8 @@ def read_review_list():
 def read_review(id: int):
     try:
         return review_controller.read_review(id=id)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'Review not found'}), 404
 
 
 @bp.route('/reviews', methods=['POST'])
@@ -42,8 +42,8 @@ def update_review(id: int):
     try:
         return review_controller.update_review(
             id=id, user_id=user['id'], body=request.json)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'Review not found'}), 404
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
 
@@ -56,5 +56,5 @@ def delete_review(id: int):
     try:
         result = review_controller.delete_review(id=id, user_id=user['id'])
         return jsonify(result)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'Review not found'}), 404

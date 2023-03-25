@@ -1,16 +1,10 @@
 from flask_jwt_extended import create_access_token
+from sqlalchemy.exc import NoResultFound
 
+from app.custom_exc import UserExists
 from app.repositories.user import UserRepository
 from app.schemas.auth import LoginSchema, SignupSchema
 from app.schemas.user import UserSchema
-
-
-class UserExistsError(Exception):
-    pass
-
-
-class InvalidCredentialsError(Exception):
-    pass
 
 
 class AuthController:
@@ -26,7 +20,7 @@ class AuthController:
         email = body['email']
 
         if self.user_repository.exists(username, email):
-            raise UserExistsError({'message': 'User already exists.'})
+            raise UserExists
 
         return self.user_repository.create(body)
 
@@ -35,8 +29,8 @@ class AuthController:
 
         user = self.user_repository.read_by_credentials(**body)
 
-        if not user:
-            raise InvalidCredentialsError({'message': 'Invalid credentials.'})
+        if user is None:
+            raise NoResultFound
 
         user = self.user_schema.dump(user)
 

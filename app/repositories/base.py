@@ -18,7 +18,7 @@ class BaseRepository:
         entity = db.session.query(self.Model).get(id)
 
         if entity is None:
-            raise NoResultFound({'message': 'Not found.'})
+            raise NoResultFound
 
         return self.schema.dump(entity)
 
@@ -35,7 +35,7 @@ class BaseRepository:
         entity = db.session.query(self.Model).get(id)
 
         if entity is None:
-            raise NoResultFound({'message': 'Not found.'})
+            raise NoResultFound
 
         self.schema.load(body)
 
@@ -50,7 +50,7 @@ class BaseRepository:
         entity = db.session.query(self.Model).get(id)
 
         if entity is None:
-            raise NoResultFound({'message': 'Not found.'})
+            raise NoResultFound
 
         db.session.delete(entity)
         db.session.commit()

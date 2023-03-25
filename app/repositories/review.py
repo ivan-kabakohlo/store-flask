@@ -40,7 +40,7 @@ class ReviewRepository(BaseRepository):
         review = db.session.query(self.Review).filter(condition).first()
 
         if review is None:
-            raise NoResultFound({'message': 'Can not access this review.'})
+            raise NoResultFound
 
         self.review_schema_update.load(body)
 
@@ -57,7 +57,7 @@ class ReviewRepository(BaseRepository):
         review = db.session.query(self.Review).filter(condition).first()
 
         if review is None:
-            raise NoResultFound({'message': 'Can not access this review.'})
+            raise NoResultFound
 
         db.session.delete(review)
         db.session.commit()

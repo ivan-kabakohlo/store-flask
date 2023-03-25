@@ -19,5 +19,5 @@ def read_users():
 def read_user(id: int):
     try:
         return user_controller.read_user(id)
-    except NoResultFound as e:
-        return jsonify(e.args[0]), 404
+    except NoResultFound:
+        return jsonify({'message': 'User not found'}), 404

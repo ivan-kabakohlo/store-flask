@@ -1,10 +1,10 @@
 from flask import jsonify, request
 from marshmallow import ValidationError
+from sqlalchemy.exc import NoResultFound
 
 from app.blueprints.auth import bp
-from app.blueprints.auth.controller import (AuthController,
-                                            InvalidCredentialsError,
-                                            UserExistsError)
+from app.blueprints.auth.controller import AuthController
+from app.custom_exc import UserExists
 
 auth_controller = AuthController()
 
@@ -15,8 +15,8 @@ def signup():
         return auth_controller.signup(body=request.json)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
-    except UserExistsError as e:
-        return jsonify(e.args[0]), 409
+    except UserExists as e:
+        return jsonify({'message': 'User already exists'}), 409
 
 
 @bp.route('/login', methods=['POST'])
@@ -26,5 +26,5 @@ def login():
         return jsonify(token)
     except ValidationError as e:
         return jsonify(e.normalized_messages()), 422
-    except InvalidCredentialsError as e:
-        return jsonify(e.args[0]), 401
+    except NoResultFound:
+        return jsonify({'message': 'Invalid creds'}), 401

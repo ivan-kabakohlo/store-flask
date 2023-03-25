@@ -26,7 +26,7 @@ class ProductRepository(BaseRepository):
         product = db.session.query(self.Product).filter(condition).first()
 
         if product is None:
-            raise NoResultFound({'message': 'Can not access this product.'})
+            raise NoResultFound
 
         self.product_schema_update.load(body)
 
@@ -43,7 +43,7 @@ class ProductRepository(BaseRepository):
         product = db.session.query(self.Product).filter(condition).first()
 
         if product is None:
-            raise NoResultFound({'message': 'Can not access this product.'})
+            raise NoResultFound
 
         db.session.delete(product)
         db.session.commit()
