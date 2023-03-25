@@ -4,6 +4,11 @@ from app.extensions import db, jwt, ma
 from app.seeds.seed import seed
 from config import Config
 
+from app.blueprints.auth import bp as auth_bp
+from app.blueprints.product import bp as product_bp
+from app.blueprints.review import bp as review_bp
+from app.blueprints.user import bp as user_bp
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -12,11 +17,6 @@ def create_app(config_class=Config):
     db.init_app(app)
     ma.init_app(app)
     jwt.init_app(app)
-
-    from app.blueprints.auth import bp as auth_bp
-    from app.blueprints.product import bp as product_bp
-    from app.blueprints.review import bp as review_bp
-    from app.blueprints.user import bp as user_bp
 
     app.register_blueprint(product_bp)
     app.register_blueprint(review_bp)
